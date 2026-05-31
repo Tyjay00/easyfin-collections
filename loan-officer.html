@@ -967,10 +967,10 @@ body {
 const CONFIG = {
   // Google Sheets CSV export URLs (published 'Agreements' and 'Documents' tabs)
   agreementsCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?gid=0&single=true&output=csv',
-  documentsCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?output=csv',
+  documentsCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?gid=1322177264&single=true&output=csv',
 
   // Apps Script web app URL
-  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwC4iRDrPvIMfoshGJ0cbgzCZ2KKaszMHG9P7xPpc-sVVcUOAJeF0WL4-SlRfc-2-yy/exec',
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbzb_DosH-4MqYHl2n1WuvVwJTk6COn4wb9kbGbcT1ycOapQfmsb9IB5cjowGt821QcY/exec',
 
   // Demo password — replace with proper auth in production
   password: 'easyfin2026',
@@ -1053,7 +1053,7 @@ if (sessionStorage.getItem('easyfin_auth') === 'ok') showApp();
 
 function checkConfig() {
   const warn = document.getElementById('config-warning');
-  if (CONFIG.agreementsCsvUrl.includes('https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?gid=0&single=true&output=csv') || CONFIG.appsScriptUrl.includes('https://script.google.com/macros/s/AKfycbwC4iRDrPvIMfoshGJ0cbgzCZ2KKaszMHG9P7xPpc-sVVcUOAJeF0WL4-SlRfc-2-yy/exec')) {
+  if (CONFIG.agreementsCsvUrl.includes('PASTE') || CONFIG.appsScriptUrl.includes('PASTE')) {
     warn.innerHTML = `
       <div class="config-banner">
         <strong>Demo mode active.</strong> Sample data is shown because <code>agreementsCsvUrl</code>, <code>documentsCsvUrl</code>, and <code>appsScriptUrl</code> haven't been configured yet. Follow the deployment guide to connect to your live sheet.
