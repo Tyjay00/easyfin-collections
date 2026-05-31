@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easyfin Tech — Loan Officer Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy-900: #0a1a2f;
+  --navy-800: #102a48;
+  --navy-700: #1a3a5f;
+  --navy-600: #244c7a;
+  --teal-500: #14a8b8;
+  --teal-400: #3dbecd;
+  --cream-50: #fdfaf5;
+  --cream-100: #f7f0e3;
+  --cream-200: #ede2cd;
+  --stone-300: #d4c8b3;
+  --stone-500: #7a7165;
+  --stone-700: #3d3933;
+  --amber-500: #d97706;
+  --amber-100: #fef3c7;
+  --green-600: #15803d;
+  --green-100: #dcfce7;
+  --red-600: #b91c1c;
+  --red-100: #fee2e2;
+  --slate-100: #f1f5f9;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: 'Manrope', system-ui, sans-serif;
+  background: var(--cream-50);
+  color: var(--stone-700);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body {
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(20,168,184,0.05), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(36,76,122,0.05), transparent 40%);
+}
+
+/* Auth screen */
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.auth-box {
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(10,26,47,0.08);
+}
+.auth-box .logo-mark {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, var(--teal-500), var(--navy-700));
+  border-radius: 12px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 24px;
+}
+.auth-box h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 28px;
+  color: var(--navy-900);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.auth-box .sub {
+  color: var(--stone-500);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.auth-box input {
+  width: 100%;
+  background: var(--cream-50);
+  border: 1px solid var(--stone-300);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--navy-900);
+  margin-bottom: 16px;
+}
+.auth-box input:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 3px rgba(20,168,184,0.15);
+}
+.auth-box .btn {
+  width: 100%;
+  background: var(--navy-900);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.auth-box .btn:hover { background: var(--navy-700); }
+.auth-box .demo-hint {
+  font-size: 11px;
+  color: var(--stone-500);
+  margin-top: 16px;
+  font-style: italic;
+}
+
+.app-shell { display: none; }
+.app-shell.visible { display: block; }
+
+.topbar {
+  background: var(--navy-900);
+  color: white;
+  padding: 14px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.topbar-logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--teal-500), var(--navy-600));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+.topbar-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.topbar-title .light { color: var(--teal-400); font-style: italic; }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.refresh-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+.refresh-btn:hover { background: rgba(255,255,255,0.2); }
+.refresh-btn.spinning::before {
+  content: '↻';
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+.logout-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.logout-btn:hover { color: white; }
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 32px;
+}
+
+.page-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--stone-300);
+}
+.page-header h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(32px, 4vw, 44px);
+  color: var(--navy-900);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.page-header h1 em {
+  font-style: italic;
+  color: var(--teal-500);
+  font-weight: 400;
+}
+.page-header p { color: var(--stone-500); margin-top: 6px; max-width: 540px; }
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--stone-500);
+}
+.live-dot {
+  width: 8px; height: 8px;
+  background: var(--green-600);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.stat-card {
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--teal-500);
+}
+.stat-card.amber::before { background: var(--amber-500); }
+.stat-card.green::before { background: var(--green-600); }
+.stat-card.red::before { background: var(--red-600); }
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stone-500);
+  margin-bottom: 8px;
+}
+.stat-value {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 32px;
+  color: var(--navy-900);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.stat-sub { font-size: 12px; color: var(--stone-500); margin-top: 6px; }
+
+/* Main view tabs */
+.main-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--stone-300);
+}
+.main-tab {
+  padding: 14px 22px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--stone-500);
+  cursor: pointer;
+  position: relative;
+  margin-bottom: -1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.main-tab:hover { color: var(--navy-900); }
+.main-tab.active {
+  color: var(--navy-900);
+  border-bottom: 3px solid var(--teal-500);
+}
+
+/* Sub tabs (within agreements/clients view) */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.tab {
+  padding: 8px 14px;
+  background: white;
+  border: 1px solid var(--stone-300);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--stone-500);
+  cursor: pointer;
+  border-radius: 999px;
+}
+.tab:hover { border-color: var(--navy-700); color: var(--navy-900); }
+.tab.active {
+  background: var(--navy-900);
+  color: white;
+  border-color: var(--navy-900);
+}
+.tab .count {
+  background: rgba(255,255,255,0.2);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+}
+.tab:not(.active) .count { background: var(--cream-100); color: var(--stone-700); }
+
+/* Search */
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+.search {
+  flex: 1;
+  position: relative;
+  max-width: 360px;
+}
+.search input {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 10px;
+  padding: 10px 14px 10px 38px;
+  font-family: inherit;
+  font-size: 13px;
+}
+.search input:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 3px rgba(20,168,184,0.15);
+}
+.search::before {
+  content: '';
+  position: absolute;
+  left: 14px; top: 50%;
+  width: 14px; height: 14px;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a7165' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+}
+
+/* List */
+.list-container {
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.list-row {
+  display: grid;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--cream-200);
+  align-items: center;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.list-row:hover { background: var(--cream-50); }
+.list-row:last-child { border-bottom: none; }
+.list-row.header {
+  background: var(--cream-100);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stone-500);
+  padding: 12px 24px;
+  cursor: default;
+}
+.list-row.header:hover { background: var(--cream-100); }
+
+/* Agreement row */
+.agreement-row {
+  grid-template-columns: 140px 1.5fr 120px 130px 130px 110px 100px;
+}
+.ref-code {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--navy-900);
+  font-weight: 600;
+  font-size: 12px;
+}
+.client-cell strong {
+  display: block;
+  color: var(--navy-900);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.client-cell span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--stone-500);
+}
+.amount-cell {
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--navy-900);
+}
+.timestamp-cell { font-size: 12px; color: var(--stone-500); }
+
+/* Client row */
+.client-row {
+  grid-template-columns: 1fr 120px 100px 120px 100px 40px;
+}
+.client-row .docs-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--cream-100);
+  color: var(--stone-700);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.client-row .docs-count.has-docs {
+  background: rgba(20,168,184,0.1);
+  color: var(--teal-500);
+}
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-400), var(--navy-600));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.client-name-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Channel + status pills */
+.channel-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--cream-100);
+  color: var(--stone-700);
+}
+.channel-pill.debicheck { background: rgba(20,168,184,0.1); color: var(--teal-500); }
+.channel-pill.eft { background: #ede9fe; color: #6d28d9; }
+.channel-pill.cash { background: var(--amber-100); color: var(--amber-500); }
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.status-pill::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.status-pill.pending { background: var(--amber-100); color: var(--amber-500); }
+.status-pill.mandate-loaded { background: var(--green-100); color: var(--green-600); }
+.status-pill.rejected { background: var(--red-100); color: var(--red-600); }
+.status-pill.overdue { background: var(--red-100); color: var(--red-600); }
+.status-pill.partial { background: var(--amber-100); color: var(--amber-500); }
+.status-pill.paid { background: var(--green-100); color: var(--green-600); }
+.status-pill.review { background: #ede9fe; color: #6d28d9; }
+.status-pill.dismissed { background: var(--slate-100); color: var(--stone-500); }
+
+.chevron { color: var(--stone-500); font-size: 18px; text-align: center; }
+
+.empty-state {
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--stone-500);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+.empty-state h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  color: var(--navy-900);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* Modal */
+.detail-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 26, 47, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+.detail-modal.open { display: flex; }
+.detail-box {
+  background: white;
+  border-radius: 16px;
+  max-width: 820px;
+  width: 100%;
+  overflow: hidden;
+  animation: slideDown 0.3s ease-out;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.detail-header {
+  background: var(--navy-900);
+  color: white;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.detail-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 500;
+}
+.detail-header .close {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+}
+.detail-body { padding: 28px 32px; max-height: 70vh; overflow-y: auto; }
+.detail-section {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--cream-200);
+}
+.detail-section:last-of-type { border-bottom: none; }
+.detail-section h3 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stone-500);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+}
+.detail-row .lbl { color: var(--stone-500); }
+.detail-row .val { color: var(--navy-900); font-weight: 500; }
+.audit-hash {
+  background: var(--cream-100);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--navy-700);
+  word-break: break-all;
+  margin-top: 6px;
+}
+
+/* Document upload area */
+.upload-zone {
+  background: var(--cream-50);
+  border: 2px dashed var(--stone-300);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 16px;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--teal-500);
+  background: rgba(20,168,184,0.05);
+}
+.upload-zone .upload-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: var(--teal-500);
+}
+.upload-zone .upload-text {
+  color: var(--navy-900);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.upload-zone .upload-sub {
+  color: var(--stone-500);
+  font-size: 12px;
+}
+.upload-zone input[type="file"] { display: none; }
+
+.doc-meta-form {
+  background: var(--cream-100);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  display: none;
+}
+.doc-meta-form.active { display: block; }
+.doc-meta-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.doc-meta-form label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--stone-500);
+  display: block;
+  margin-bottom: 4px;
+}
+.doc-meta-form select,
+.doc-meta-form input[type="text"] {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 13px;
+}
+.doc-meta-form .filename-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--navy-700);
+  padding: 6px 0;
+  margin-bottom: 8px;
+}
+.doc-meta-form .btn-confirm {
+  background: var(--teal-500);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+.doc-meta-form .btn-confirm:hover { background: #0d8a98; }
+.doc-meta-form .btn-confirm:disabled {
+  background: var(--stone-300);
+  cursor: not-allowed;
+}
+
+/* Document list */
+.doc-list { margin-top: 12px; }
+.doc-item {
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.15s;
+}
+.doc-item:hover { border-color: var(--teal-400); }
+.doc-icon {
+  width: 40px; height: 40px;
+  background: rgba(20,168,184,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.doc-info { flex: 1; min-width: 0; }
+.doc-info .name {
+  font-weight: 600;
+  color: var(--navy-900);
+  font-size: 13px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.doc-info .meta {
+  font-size: 11px;
+  color: var(--stone-500);
+}
+.doc-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.doc-actions a, .doc-actions button {
+  background: var(--cream-100);
+  color: var(--navy-900);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s;
+}
+.doc-actions a:hover, .doc-actions button:hover { background: var(--cream-200); }
+.doc-actions .delete-btn { color: var(--red-600); }
+.doc-actions .delete-btn:hover { background: var(--red-100); }
+
+.doc-item.uploading {
+  opacity: 0.7;
+  background: linear-gradient(90deg, var(--cream-50), var(--cream-100), var(--cream-50));
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Detail actions */
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  padding: 20px 32px;
+  background: var(--cream-50);
+  border-top: 1px solid var(--cream-200);
+}
+.detail-actions .btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-load { background: var(--green-600); color: white; }
+.btn-load:hover { background: #166534; }
+.btn-reject { background: white; color: var(--red-600); border: 1px solid var(--red-100) !important; }
+.btn-reject:hover { background: var(--red-100); }
+.btn-close { background: white; color: var(--navy-900); border: 1px solid var(--stone-300) !important; }
+.btn-close:hover { border-color: var(--navy-900); }
+
+.loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--stone-500);
+}
+.loading .spinner {
+  display: inline-block;
+  width: 32px; height: 32px;
+  border: 3px solid var(--cream-200);
+  border-top-color: var(--teal-500);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+.config-banner {
+  background: var(--amber-100);
+  border-left: 4px solid var(--amber-500);
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--stone-700);
+  line-height: 1.6;
+}
+.config-banner strong { color: var(--navy-900); }
+.config-banner code {
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--navy-900);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 2000;
+  display: none;
+  animation: slideIn 0.3s ease-out;
+  max-width: 360px;
+  box-shadow: 0 12px 32px rgba(10,26,47,0.3);
+}
+.toast.show { display: block; }
+.toast.success { background: var(--green-600); }
+.toast.error { background: var(--red-600); }
+@keyframes slideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (max-width: 1100px) {
+  .agreement-row { grid-template-columns: 100px 1fr 100px 100px 90px; }
+  .agreement-row .col-channel, .agreement-row .col-date { display: none; }
+  .client-row { grid-template-columns: 1fr 100px 80px 80px 40px; }
+  .client-row .col-payday { display: none; }
+}
+@media (max-width: 700px) {
+  .container { padding: 24px 16px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .page-header { grid-template-columns: 1fr; }
+  .agreement-row { grid-template-columns: 1fr 90px 80px; padding: 14px 16px; }
+  .agreement-row .col-ref, .agreement-row .col-installments, .agreement-row .col-date { display: none; }
+  .client-row { grid-template-columns: 1fr 80px 40px; padding: 14px 16px; }
+  .client-row .col-outstanding, .client-row .col-payday { display: none; }
+  .doc-meta-form .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-box">
+    <div class="logo-mark">E</div>
+    <h1>Loan Officer Portal</h1>
+    <p class="sub">Sign in to view incoming agreements</p>
+    <input type="password" id="password-input" placeholder="Access code" onkeypress="if(event.key==='Enter') login()">
+    <button class="btn" onclick="login()">Sign in</button>
+    <div class="demo-hint">Demo access code: <strong>easyfin2026</strong></div>
+  </div>
+</div>
+
+<div class="app-shell" id="app-shell">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">E</div>
+      <div class="topbar-title">Easyfin Tech<span class="light"> — Officer</span></div>
+    </div>
+    <div class="topbar-right">
+      <span class="live-indicator"><span class="live-dot"></span>Live</span>
+      <button class="refresh-btn" id="refresh-btn" onclick="loadAll()">↻ Refresh</button>
+      <button class="logout-btn" onclick="logout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="config-warning"></div>
+
+    <div class="page-header">
+      <div>
+        <h1>Collections workspace<br><em>internal portal</em></h1>
+        <p>Manage incoming payment arrangements and client documents. All actions are logged to the audit trail.</p>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 11px; color: var(--stone-500); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;">Last sync</div>
+        <div id="last-sync" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--navy-700); margin-top: 4px;">—</div>
+      </div>
+    </div>
+
+    <div class="stats-grid" id="stats-grid"></div>
+
+    <div class="main-tabs">
+      <button class="main-tab active" data-view="agreements" onclick="switchView('agreements')">
+        📋 Agreements
+      </button>
+      <button class="main-tab" data-view="clients" onclick="switchView('clients')">
+        👥 Clients
+      </button>
+    </div>
+
+    <!-- AGREEMENTS VIEW -->
+    <div id="view-agreements">
+      <div class="tabs">
+        <button class="tab active" data-filter="pending" onclick="setAgreementFilter('pending')">Pending <span class="count" id="count-pending">0</span></button>
+        <button class="tab" data-filter="mandate-loaded" onclick="setAgreementFilter('mandate-loaded')">Mandate loaded <span class="count" id="count-loaded">0</span></button>
+        <button class="tab" data-filter="rejected" onclick="setAgreementFilter('rejected')">Rejected <span class="count" id="count-rejected">0</span></button>
+        <button class="tab" data-filter="all" onclick="setAgreementFilter('all')">All <span class="count" id="count-all">0</span></button>
+      </div>
+      <div class="list-container" id="agreement-list">
+        <div class="loading"><div class="spinner"></div><div>Loading agreements...</div></div>
+      </div>
+    </div>
+
+    <!-- CLIENTS VIEW -->
+    <div id="view-clients" style="display: none;">
+      <div class="toolbar">
+        <div class="search">
+          <input type="text" placeholder="Search by name or phone..." id="client-search" oninput="filterClients()">
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-filter="all" onclick="setClientFilter('all')">All</button>
+          <button class="tab" data-filter="with-docs" onclick="setClientFilter('with-docs')">With documents</button>
+          <button class="tab" data-filter="no-docs" onclick="setClientFilter('no-docs')">Missing documents</button>
+        </div>
+      </div>
+      <div class="list-container" id="client-list"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Agreement Detail Modal -->
+<div class="detail-modal" id="detail-modal">
+  <div class="detail-box">
+    <div class="detail-header">
+      <h2 id="detail-title">Details</h2>
+      <button class="close" onclick="closeDetail()">×</button>
+    </div>
+    <div class="detail-body" id="detail-body"></div>
+    <div class="detail-actions" id="detail-actions"></div>
+  </div>
+</div>
+
+<!-- Toast notifications -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+
+const CONFIG = {
+  // Google Sheets CSV export URLs (published 'Agreements' and 'Documents' tabs)
+  agreementsCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?gid=0&single=true&output=csv',
+  documentsCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?output=csv',
+
+  // Apps Script web app URL
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwC4iRDrPvIMfoshGJ0cbgzCZ2KKaszMHG9P7xPpc-sVVcUOAJeF0WL4-SlRfc-2-yy/exec',
+
+  // Demo password — replace with proper auth in production
+  password: 'easyfin2026',
+
+  // Max file size for upload (Apps Script payload limit considerations)
+  maxFileSize: 25 * 1024 * 1024, // 25 MB
+
+  // Allowed file types
+  allowedMimeTypes: [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'image/jpeg', 'image/png'
+  ]
+};
+
+// Master client list — same as consumer portal
+const clients = [
+  { name: 'Gavin Swart', phone: '0827642381', altContact: 'Waldo Raath – 0813345354', loaned: 7000, expected: null, paid: 0, payday: '25th', status: 'overdue' },
+  { name: 'Bandzi Brandon Kunene', phone: '0630380302', altContact: 'Zano – 0718139041', loaned: 1500, expected: null, paid: 0, payday: '25th', status: 'overdue' },
+  { name: 'Nakita Peach', phone: '0716279336', altContact: 'Bridgette – 0814572744', loaned: 7000, expected: null, paid: 3700, payday: '25th', status: 'partial' },
+  { name: 'Ruan Johnson', phone: '0828822392', altContact: 'Alfred – 0828234761', loaned: 5000, expected: null, paid: 0, payday: '25th', status: 'overdue' },
+  { name: 'Elsie Labuschagne', phone: '0724656949', altContact: 'B Viljoen – 0660508599', loaned: 6000, expected: null, paid: 500, payday: '25th', status: 'partial' },
+  { name: 'Eurika Cooks', phone: '0673676932', altContact: 'Yolandi – 0730375807', loaned: 5000, expected: null, paid: 0, payday: '25th', status: 'review' },
+  { name: 'Jeremia Mbengeni Molele', phone: '0711865806', altContact: '0822173435', loaned: 5000, expected: null, paid: 0, payday: '25th', status: 'overdue' },
+  { name: 'Puseletso Moodly Mokobodi', phone: '0814654343', altContact: '0782013317', loaned: 3000, expected: null, paid: 1400, payday: '25th', status: 'partial' },
+  { name: 'Sihle Steven Zungu', phone: '0726180183', altContact: 'Linah – 0783726714', loaned: 7000, expected: null, paid: 3000, payday: '25th', status: 'partial' },
+  { name: 'Velile Lehlohonolo Magaba', phone: '0624919428', altContact: 'Leo Motoko – 0715659028', loaned: 5500, expected: null, paid: 1000, payday: '28th', status: 'partial' },
+  { name: 'Motlatsi Hendrick Pheko', phone: '0785091527', altContact: 'Isaac Pheko – 0784785781', loaned: 3500, expected: null, paid: 0, payday: '25th', status: 'overdue' },
+  { name: 'Minky Isabella Masuku', phone: '0685894716', altContact: 'Koketso – 0824709014', loaned: 6000, expected: null, paid: 2400, payday: '25th', status: 'partial' },
+  { name: 'Thabang Stephen Thabethe', phone: '0730845976', altContact: '0712123969', loaned: 7000, expected: 9551.50, paid: 0, payday: '–', status: 'overdue' },
+  { name: 'Tebogo Frans Mashele', phone: '0728044494', altContact: '0728044494', loaned: 2000, expected: 2901.50, paid: 0, payday: '–', status: 'overdue' },
+  { name: 'Siphesihle Dyantyi', phone: '0630944128', altContact: '0720439925', loaned: 3000, expected: 4231.50, paid: 0, payday: '–', status: 'overdue' },
+  { name: 'Tshifhiwa Simon Nkhumeleni', phone: '0608734724', altContact: 'Vhutsho – 0791551069', loaned: 500, expected: 640, paid: 0, payday: '–', status: 'overdue' },
+  { name: 'Reginah Khumbuzile Mokoena', phone: '0659053479', altContact: '0693239790', loaned: 3000, expected: 3840, paid: 0, payday: '–', status: 'dismissed' },
+  { name: 'Willem Adriaan Verster', phone: '0664152932', altContact: '0644025645', loaned: 4000, expected: 5120, paid: 0, payday: '–', status: 'review' },
+  { name: 'Boitumelo Stella', phone: '0791668752', altContact: '0719170423', loaned: 2000, expected: 2894, paid: 2400, payday: '20th', status: 'paid' },
+  { name: 'Marie Hugo', phone: '0794294780', altContact: 'Ester Hugo – 0843912346', loaned: 5000, expected: 6650, paid: 2034, payday: '30th', status: 'partial' },
+  { name: 'Vhavhuya Mutshinyane', phone: '0712534599', altContact: '0818717066', loaned: 13919, expected: 15311, paid: 5600, payday: '–', status: 'partial' },
+  { name: 'Khethani Mathews Mthembu', phone: '0764074826', altContact: 'Hleziphi – 0725824203', loaned: 13000, expected: 18850, paid: 0, payday: '23rd', status: 'overdue' },
+  { name: 'Katleho Lewis Selai', phone: '0728861776', altContact: '0713512299', loaned: 1500, expected: 1920, paid: 0, payday: '–', status: 'overdue' }
+];
+
+let agreements = [];
+let documents = []; // all documents across all clients
+let currentView = 'agreements';
+let currentAgreementFilter = 'pending';
+let currentClientFilter = 'all';
+let pendingUpload = null; // { file, clientSlug, clientName }
+
+// ============================================================
+// AUTH
+// ============================================================
+
+function login() {
+  const input = document.getElementById('password-input').value;
+  if (input === CONFIG.password) {
+    sessionStorage.setItem('easyfin_auth', 'ok');
+    showApp();
+  } else {
+    showToast('Invalid access code', 'error');
+  }
+}
+function logout() {
+  sessionStorage.removeItem('easyfin_auth');
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app-shell').classList.remove('visible');
+}
+function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-shell').classList.add('visible');
+  checkConfig();
+  loadAll();
+}
+if (sessionStorage.getItem('easyfin_auth') === 'ok') showApp();
+
+// ============================================================
+// CONFIG CHECK
+// ============================================================
+
+function checkConfig() {
+  const warn = document.getElementById('config-warning');
+  if (CONFIG.agreementsCsvUrl.includes('https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?gid=0&single=true&output=csv') || CONFIG.appsScriptUrl.includes('https://script.google.com/macros/s/AKfycbwC4iRDrPvIMfoshGJ0cbgzCZ2KKaszMHG9P7xPpc-sVVcUOAJeF0WL4-SlRfc-2-yy/exec')) {
+    warn.innerHTML = `
+      <div class="config-banner">
+        <strong>Demo mode active.</strong> Sample data is shown because <code>agreementsCsvUrl</code>, <code>documentsCsvUrl</code>, and <code>appsScriptUrl</code> haven't been configured yet. Follow the deployment guide to connect to your live sheet.
+      </div>
+    `;
+  }
+}
+
+// ============================================================
+// DATA LOADING
+// ============================================================
+
+const SAMPLE_AGREEMENTS = [
+  { refCode: 'EFA-A3F2C9B1', timestamp: '2026-05-30T14:23:00Z', accountSlug: 'WV-2932', clientName: 'Willem Adriaan Verster', clientPhone: '0664152932', outstandingAmount: 5120, installments: 2, perPaymentAmount: 2560, firstPaymentDate: '2026-06-25', channel: 'debicheck', signatureName: 'Willem Adriaan Verster', agreementHash: 'a3f2c9b18e7d4c5a', status: 'pending' },
+  { refCode: 'EFA-7E8D1F22', timestamp: '2026-05-30T09:15:00Z', accountSlug: 'NP-9336', clientName: 'Nakita Peach', clientPhone: '0716279336', outstandingAmount: 5610, installments: 3, perPaymentAmount: 1870, firstPaymentDate: '2026-06-25', channel: 'debicheck', signatureName: 'Nakita Peach', agreementHash: '7e8d1f22a4c93b67', status: 'pending' },
+  { refCode: 'EFA-91D3F4A7', timestamp: '2026-05-29T11:08:00Z', accountSlug: 'BS-8752', clientName: 'Boitumelo Stella', clientPhone: '0791668752', outstandingAmount: 494, installments: 1, perPaymentAmount: 494, firstPaymentDate: '2026-06-20', channel: 'eft', signatureName: 'Boitumelo Stella', agreementHash: '91d3f4a7c8b62e15', status: 'mandate-loaded' }
+];
+
+const SAMPLE_DOCUMENTS = [
+  { timestamp: '2026-05-30T10:00:00Z', clientSlug: 'WV-2932', clientName: 'Willem Adriaan Verster', docType: 'Loan Agreement', fileName: 'verster_loan_agreement.pdf', fileSize: 487291, mimeType: 'application/pdf', driveFileId: 'sample_001', viewUrl: '#', downloadUrl: '#', uploadedBy: 'tyrone@easyfintech.co.za', notes: '', status: 'active' },
+  { timestamp: '2026-05-28T14:30:00Z', clientSlug: 'BS-8752', clientName: 'Boitumelo Stella', docType: 'Loan Agreement', fileName: 'stella_loan_agreement.pdf', fileSize: 412908, mimeType: 'application/pdf', driveFileId: 'sample_002', viewUrl: '#', downloadUrl: '#', uploadedBy: 'tyrone@easyfintech.co.za', notes: '', status: 'active' },
+  { timestamp: '2026-05-28T14:32:00Z', clientSlug: 'BS-8752', clientName: 'Boitumelo Stella', docType: 'ID Copy', fileName: 'stella_id.pdf', fileSize: 156204, mimeType: 'application/pdf', driveFileId: 'sample_003', viewUrl: '#', downloadUrl: '#', uploadedBy: 'tyrone@easyfintech.co.za', notes: '', status: 'active' }
+];
+
+async function loadAll() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+
+  try {
+    if (CONFIG.agreementsCsvUrl.includes('PASTE')) {
+      agreements = SAMPLE_AGREEMENTS;
+      documents = SAMPLE_DOCUMENTS;
+    } else {
+      const [agreementsCsv, documentsCsv] = await Promise.all([
+        fetch(CONFIG.agreementsCsvUrl).then(r => r.text()),
+        CONFIG.documentsCsvUrl.includes('PASTE') ? Promise.resolve('') : fetch(CONFIG.documentsCsvUrl).then(r => r.text())
+      ]);
+      agreements = parseCSV(agreementsCsv);
+      documents = documentsCsv ? parseCSV(documentsCsv).filter(d => d.status === 'active') : [];
+    }
+
+    document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    renderAll();
+  } catch (err) {
+    console.error('Load error:', err);
+    showToast('Could not load data — check your sheet URLs', 'error');
+  } finally {
+    btn.classList.remove('spinning');
+  }
+}
+
+function parseCSV(csv) {
+  if (!csv.trim()) return [];
+  const lines = csv.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+  return lines.slice(1).map(line => {
+    const vals = line.match(/("([^"]|"")*"|[^,]*)/g).filter((_, i) => i % 2 === 0).map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
+    if (obj.outstandingAmount) obj.outstandingAmount = parseFloat(obj.outstandingAmount) || 0;
+    if (obj.installments) obj.installments = parseInt(obj.installments) || 1;
+    if (obj.perPaymentAmount) obj.perPaymentAmount = parseFloat(obj.perPaymentAmount) || 0;
+    if (obj.fileSize) obj.fileSize = parseInt(obj.fileSize) || 0;
+    return obj;
+  });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+
+function renderAll() {
+  renderStats();
+  renderAgreementsView();
+  renderClientsView();
+}
+
+function renderStats() {
+  const pending = agreements.filter(a => a.status === 'pending').length;
+  const totalDocs = documents.length;
+  const clientsWithDocs = new Set(documents.map(d => d.clientSlug)).size;
+  const today = new Date().toDateString();
+  const todayCount = agreements.filter(a => new Date(a.timestamp).toDateString() === today).length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card amber">
+      <div class="stat-label">Pending agreements</div>
+      <div class="stat-value">${pending}</div>
+      <div class="stat-sub">awaiting review</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Active clients</div>
+      <div class="stat-value">${clients.length}</div>
+      <div class="stat-sub">${clientsWithDocs} with documents</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Documents on file</div>
+      <div class="stat-value">${totalDocs}</div>
+      <div class="stat-sub">across all clients</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Today</div>
+      <div class="stat-value">${todayCount}</div>
+      <div class="stat-sub">new agreements</div>
+    </div>
+  `;
+}
+
+// ===== VIEW SWITCHING =====
+function switchView(view) {
+  currentView = view;
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+  document.getElementById('view-agreements').style.display = view === 'agreements' ? 'block' : 'none';
+  document.getElementById('view-clients').style.display = view === 'clients' ? 'block' : 'none';
+}
+
+// ===== AGREEMENTS VIEW =====
+function renderAgreementsView() {
+  document.getElementById('count-pending').textContent = agreements.filter(a => a.status === 'pending').length;
+  document.getElementById('count-loaded').textContent = agreements.filter(a => a.status === 'mandate-loaded').length;
+  document.getElementById('count-rejected').textContent = agreements.filter(a => a.status === 'rejected').length;
+  document.getElementById('count-all').textContent = agreements.length;
+  renderAgreementList();
+}
+
+function renderAgreementList() {
+  const filtered = currentAgreementFilter === 'all' ? agreements : agreements.filter(a => a.status === currentAgreementFilter);
+  const list = document.getElementById('agreement-list');
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">📋</div>
+        <h3>No agreements in this view</h3>
+        <p>When clients submit agreements through their portal, they'll appear here.</p>
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = `
+    <div class="list-row agreement-row header">
+      <div class="col-ref">Reference</div>
+      <div>Client</div>
+      <div>Amount</div>
+      <div class="col-installments">Plan</div>
+      <div class="col-channel">Channel</div>
+      <div class="col-date">First payment</div>
+      <div>Status</div>
+    </div>
+    ${filtered.map(a => `
+      <div class="list-row agreement-row" onclick="showAgreementDetail('${a.refCode}')">
+        <div class="ref-code col-ref">${a.refCode}</div>
+        <div class="client-cell">
+          <strong>${a.clientName}</strong>
+          <span>${a.accountSlug} · ${a.clientPhone}</span>
+        </div>
+        <div class="amount-cell">${formatZAR(a.outstandingAmount)}</div>
+        <div class="col-installments timestamp-cell">${a.installments} × ${formatZAR(a.perPaymentAmount)}</div>
+        <div class="col-channel"><span class="channel-pill ${a.channel}">${channelLabel(a.channel)}</span></div>
+        <div class="col-date timestamp-cell">${formatDate(a.firstPaymentDate)}</div>
+        <div><span class="status-pill ${a.status}">${statusLabel(a.status)}</span></div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function setAgreementFilter(filter) {
+  currentAgreementFilter = filter;
+  document.querySelectorAll('#view-agreements .tab').forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
+  renderAgreementList();
+}
+
+// ===== CLIENTS VIEW =====
+function renderClientsView() { renderClientList(); }
+
+function getClientDocs(slug) {
+  return documents.filter(d => d.clientSlug === slug);
+}
+
+function renderClientList() {
+  const search = (document.getElementById('client-search')?.value || '').toLowerCase();
+  let filtered = clients.slice();
+
+  if (currentClientFilter === 'with-docs') {
+    filtered = filtered.filter(c => getClientDocs(getSlug(c)).length > 0);
+  } else if (currentClientFilter === 'no-docs') {
+    filtered = filtered.filter(c => getClientDocs(getSlug(c)).length === 0);
+  }
+  if (search) {
+    filtered = filtered.filter(c => c.name.toLowerCase().includes(search) || c.phone.includes(search));
+  }
+
+  const list = document.getElementById('client-list');
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="icon">👥</div><h3>No clients match this filter</h3></div>`;
+    return;
+  }
+
+  list.innerHTML = `
+    <div class="list-row client-row header">
+      <div>Client</div>
+      <div>Outstanding</div>
+      <div class="col-payday">Payday</div>
+      <div>Status</div>
+      <div>Documents</div>
+      <div></div>
+    </div>
+    ${filtered.map(c => {
+      const docCount = getClientDocs(getSlug(c)).length;
+      return `
+        <div class="list-row client-row" onclick="showClientDetail('${getSlug(c)}')">
+          <div class="client-name-block">
+            <div class="avatar">${getInitials(c.name)}</div>
+            <div class="client-cell">
+              <strong>${c.name}</strong>
+              <span>${getSlug(c)} · ${c.phone}</span>
+            </div>
+          </div>
+          <div class="amount-cell">${formatZAR(getOutstanding(c))}</div>
+          <div class="col-payday timestamp-cell">${c.payday}</div>
+          <div><span class="status-pill ${c.status}">${statusLabel(c.status)}</span></div>
+          <div><span class="docs-count ${docCount > 0 ? 'has-docs' : ''}">📄 ${docCount}</span></div>
+          <div class="chevron">→</div>
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+function filterClients() { renderClientList(); }
+
+function setClientFilter(filter) {
+  currentClientFilter = filter;
+  document.querySelectorAll('#view-clients .tab').forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
+  renderClientList();
+}
+
+// ============================================================
+// AGREEMENT DETAIL MODAL
+// ============================================================
+
+function showAgreementDetail(refCode) {
+  const a = agreements.find(x => x.refCode === refCode);
+  if (!a) return;
+
+  const client = clients.find(c => getSlug(c) === a.accountSlug);
+  const clientDocs = getClientDocs(a.accountSlug);
+
+  document.getElementById('detail-title').textContent = 'Agreement details';
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-section">
+      <h3>Reference</h3>
+      <div class="detail-row"><span class="lbl">Code</span><span class="val">${a.refCode}</span></div>
+      <div class="detail-row"><span class="lbl">Submitted</span><span class="val">${formatFullDate(a.timestamp)}</span></div>
+      <div class="detail-row"><span class="lbl">Status</span><span class="val"><span class="status-pill ${a.status}">${statusLabel(a.status)}</span></span></div>
+    </div>
+    <div class="detail-section">
+      <h3>Client</h3>
+      <div class="detail-row"><span class="lbl">Name</span><span class="val">${a.clientName}</span></div>
+      <div class="detail-row"><span class="lbl">Account</span><span class="val">${a.accountSlug}</span></div>
+      <div class="detail-row"><span class="lbl">Phone</span><span class="val">${a.clientPhone}</span></div>
+    </div>
+    <div class="detail-section">
+      <h3>Arrangement</h3>
+      <div class="detail-row"><span class="lbl">Outstanding amount</span><span class="val">${formatZAR(a.outstandingAmount)}</span></div>
+      <div class="detail-row"><span class="lbl">Installments</span><span class="val">${a.installments} × ${formatZAR(a.perPaymentAmount)}</span></div>
+      <div class="detail-row"><span class="lbl">First payment</span><span class="val">${formatDate(a.firstPaymentDate)}</span></div>
+      <div class="detail-row"><span class="lbl">Channel</span><span class="val">${channelLabel(a.channel)}</span></div>
+    </div>
+    <div class="detail-section">
+      <h3>Audit trail</h3>
+      <div class="detail-row"><span class="lbl">Signed by</span><span class="val">${a.signatureName}</span></div>
+      <div class="detail-row"><span class="lbl">Agreement hash (SHA-256)</span></div>
+      <div class="audit-hash">${a.agreementHash}</div>
+    </div>
+    <div class="detail-section">
+      <h3>Client documents <span style="text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--stone-500); font-size: 11px;">${clientDocs.length} on file</span></h3>
+      <div class="doc-list">
+        ${clientDocs.length === 0 ? `<p style="font-size: 13px; color: var(--stone-500); padding: 8px 0;">No documents uploaded for this client. <a href="#" onclick="closeDetail(); showClientDetail('${a.accountSlug}'); return false;" style="color: var(--teal-500); font-weight: 600;">Upload now →</a></p>` : clientDocs.map(d => renderDocItem(d)).join('')}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('detail-actions').innerHTML = a.status === 'pending' ? `
+    <button class="btn btn-reject" onclick="updateAgreementStatus('${a.refCode}', 'rejected')">Reject</button>
+    <button class="btn btn-load" onclick="updateAgreementStatus('${a.refCode}', 'mandate-loaded')">✓ Mandate loaded</button>
+  ` : `
+    <button class="btn btn-close" onclick="closeDetail()">Close</button>
+  `;
+
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+// ============================================================
+// CLIENT DETAIL MODAL (with document upload)
+// ============================================================
+
+function showClientDetail(slug) {
+  const client = clients.find(c => getSlug(c) === slug);
+  if (!client) return;
+
+  const clientDocs = getClientDocs(slug);
+  const clientAgreements = agreements.filter(a => a.accountSlug === slug);
+
+  document.getElementById('detail-title').textContent = client.name;
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-section">
+      <h3>Account</h3>
+      <div class="detail-row"><span class="lbl">Account</span><span class="val">${slug}</span></div>
+      <div class="detail-row"><span class="lbl">Phone</span><span class="val">${client.phone}</span></div>
+      <div class="detail-row"><span class="lbl">Alternative</span><span class="val">${client.altContact}</span></div>
+      <div class="detail-row"><span class="lbl">Payday</span><span class="val">${client.payday}</span></div>
+      <div class="detail-row"><span class="lbl">Status</span><span class="val"><span class="status-pill ${client.status}">${statusLabel(client.status)}</span></span></div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Loan</h3>
+      <div class="detail-row"><span class="lbl">Principal</span><span class="val">${formatZAR(client.loaned)}</span></div>
+      <div class="detail-row"><span class="lbl">Total repayment</span><span class="val">${formatZAR(getExpected(client))}</span></div>
+      <div class="detail-row"><span class="lbl">Paid</span><span class="val" style="color: var(--green-600);">${formatZAR(client.paid)}</span></div>
+      <div class="detail-row"><span class="lbl">Outstanding</span><span class="val">${formatZAR(getOutstanding(client))}</span></div>
+    </div>
+
+    <div class="detail-section">
+      <h3>
+        Documents
+        <span style="text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--stone-500); font-size: 11px;">${clientDocs.length} on file</span>
+      </h3>
+
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, '${slug}', '${client.name.replace(/'/g, "\\'")}')">
+        <div class="upload-icon">📤</div>
+        <div class="upload-text">Drop a file here, or click to browse</div>
+        <div class="upload-sub">PDF, DOC, DOCX, JPG, PNG · Max ${formatBytes(CONFIG.maxFileSize)}</div>
+        <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png" onchange="handleFileSelect(event, '${slug}', '${client.name.replace(/'/g, "\\'")}')">
+      </div>
+
+      <div class="doc-meta-form" id="doc-meta-form">
+        <div class="filename-display" id="filename-display">—</div>
+        <div class="form-row">
+          <div>
+            <label>Document type</label>
+            <select id="doc-type">
+              <option value="Loan Agreement">Loan Agreement</option>
+              <option value="ID Copy">ID Copy</option>
+              <option value="Proof of Address">Proof of Address</option>
+              <option value="Payslip">Payslip</option>
+              <option value="Bank Statement">Bank Statement</option>
+              <option value="DebiCheck Mandate">DebiCheck Mandate</option>
+              <option value="Section 129 Notice">Section 129 Notice</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label>Notes (optional)</label>
+            <input type="text" id="doc-notes" placeholder="e.g. Signed 31 Jan 2026">
+          </div>
+        </div>
+        <button class="btn-confirm" id="upload-confirm" onclick="confirmUpload()">Upload document</button>
+      </div>
+
+      <div class="doc-list">
+        ${clientDocs.length === 0 ? `<p style="font-size: 13px; color: var(--stone-500); padding: 8px 0;">No documents on file yet.</p>` : clientDocs.map(d => renderDocItem(d)).join('')}
+      </div>
+    </div>
+
+    ${clientAgreements.length > 0 ? `
+      <div class="detail-section">
+        <h3>Payment arrangements (${clientAgreements.length})</h3>
+        ${clientAgreements.map(a => `
+          <div class="detail-row" style="cursor: pointer;" onclick="closeDetail(); showAgreementDetail('${a.refCode}')">
+            <span class="lbl">${a.refCode} · ${formatDate(a.timestamp)}</span>
+            <span class="val">
+              ${formatZAR(a.outstandingAmount)}
+              <span class="status-pill ${a.status}" style="margin-left: 8px;">${statusLabel(a.status)}</span>
+            </span>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+
+  document.getElementById('detail-actions').innerHTML = `
+    <button class="btn btn-close" onclick="closeDetail()">Close</button>
+  `;
+
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function renderDocItem(d) {
+  const icon = d.mimeType?.includes('pdf') ? '📄' : d.mimeType?.includes('image') ? '🖼️' : '📎';
+  return `
+    <div class="doc-item" id="doc-${d.driveFileId}">
+      <div class="doc-icon">${icon}</div>
+      <div class="doc-info">
+        <div class="name">${d.fileName}</div>
+        <div class="meta">${d.docType} · ${formatBytes(d.fileSize)} · ${formatDate(d.timestamp)}${d.notes ? ' · ' + d.notes : ''}</div>
+      </div>
+      <div class="doc-actions">
+        <a href="${d.viewUrl}" target="_blank" rel="noopener">View</a>
+        <a href="${d.downloadUrl}" target="_blank" rel="noopener">↓</a>
+        <button class="delete-btn" onclick="deleteDocument('${d.driveFileId}', '${d.fileName.replace(/'/g, "\\'")}')">×</button>
+      </div>
+    </div>
+  `;
+}
+
+function closeDetail() {
+  document.getElementById('detail-modal').classList.remove('open');
+  pendingUpload = null;
+}
+
+async function updateAgreementStatus(refCode, newStatus) {
+  const a = agreements.find(a => a.refCode === refCode);
+  if (a) a.status = newStatus;
+
+  if (!CONFIG.appsScriptUrl.includes('PASTE')) {
+    try {
+      await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'updateStatus', refCode, newStatus, updatedAt: new Date().toISOString() })
+      });
+    } catch (err) { console.error('Status update error:', err); }
+  }
+
+  closeDetail();
+  showToast(`Marked ${refCode} as ${statusLabel(newStatus)}`, 'success');
+  renderAll();
+}
+
+// ============================================================
+// DOCUMENT UPLOAD
+// ============================================================
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  document.getElementById('upload-zone').classList.add('dragover');
+}
+
+function handleDragLeave(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('dragover');
+}
+
+function handleDrop(e, slug, clientName) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) processFileSelection(file, slug, clientName);
+}
+
+function handleFileSelect(e, slug, clientName) {
+  const file = e.target.files[0];
+  if (file) processFileSelection(file, slug, clientName);
+}
+
+function processFileSelection(file, slug, clientName) {
+  // Validate size
+  if (file.size > CONFIG.maxFileSize) {
+    showToast(`File too large. Max ${formatBytes(CONFIG.maxFileSize)}`, 'error');
+    return;
+  }
+  // Validate type (lenient — check extension too because some browsers report empty mimeType)
+  const validExt = /\.(pdf|doc|docx|jpg|jpeg|png)$/i.test(file.name);
+  if (!validExt && !CONFIG.allowedMimeTypes.includes(file.type)) {
+    showToast('File type not supported', 'error');
+    return;
+  }
+
+  pendingUpload = { file, slug, clientName };
+  document.getElementById('filename-display').textContent = `📎 ${file.name} (${formatBytes(file.size)})`;
+  document.getElementById('doc-meta-form').classList.add('active');
+}
+
+async function confirmUpload() {
+  if (!pendingUpload) return;
+  const { file, slug, clientName } = pendingUpload;
+  const docType = document.getElementById('doc-type').value;
+  const notes = document.getElementById('doc-notes').value;
+
+  const confirmBtn = document.getElementById('upload-confirm');
+  confirmBtn.disabled = true;
+  confirmBtn.textContent = 'Reading file...';
+
+  // Read file as base64
+  const base64 = await fileToBase64(file);
+
+  confirmBtn.textContent = 'Uploading...';
+
+  // Optimistic UI — add placeholder doc immediately
+  const tempId = 'temp_' + Date.now();
+  const optimisticDoc = {
+    timestamp: new Date().toISOString(),
+    clientSlug: slug,
+    clientName: clientName,
+    docType: docType,
+    fileName: file.name,
+    fileSize: file.size,
+    mimeType: file.type,
+    driveFileId: tempId,
+    viewUrl: '#',
+    downloadUrl: '#',
+    uploadedBy: 'uploading...',
+    notes: notes,
+    status: 'active',
+    _uploading: true
+  };
+  documents.push(optimisticDoc);
+
+  // Submit to Apps Script
+  const payload = {
+    action: 'uploadDocument',
+    clientSlug: slug,
+    clientName: clientName,
+    docType: docType,
+    fileName: file.name,
+    mimeType: file.type || 'application/octet-stream',
+    fileSize: file.size,
+    fileData: base64,
+    notes: notes
+  };
+
+  if (!CONFIG.appsScriptUrl.includes('PASTE')) {
+    try {
+      await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      // Wait a moment then refresh documents from sheet
+      setTimeout(async () => {
+        await loadAll();
+        // Re-open the same client detail to show fresh list
+        showClientDetail(slug);
+        showToast('Document uploaded successfully', 'success');
+      }, 2500);
+    } catch (err) {
+      console.error('Upload error:', err);
+      showToast('Upload failed — check console', 'error');
+      // Remove optimistic doc
+      documents = documents.filter(d => d.driveFileId !== tempId);
+      showClientDetail(slug);
+    }
+  } else {
+    // Demo mode — simulate success
+    console.log('[DEMO] Would upload:', { ...payload, fileData: '...base64 truncated...' });
+    setTimeout(() => {
+      const idx = documents.findIndex(d => d.driveFileId === tempId);
+      if (idx >= 0) {
+        documents[idx] = {
+          ...documents[idx],
+          driveFileId: 'demo_' + Date.now(),
+          viewUrl: '#demo',
+          downloadUrl: '#demo',
+          uploadedBy: 'demo@easyfintech.co.za',
+          _uploading: false
+        };
+      }
+      showClientDetail(slug);
+      showToast('[Demo mode] Document upload simulated', 'success');
+    }, 1500);
+  }
+
+  pendingUpload = null;
+}
+
+async function deleteDocument(driveFileId, fileName) {
+  if (!confirm(`Delete "${fileName}"? This moves it to Drive trash.`)) return;
+
+  const doc = documents.find(d => d.driveFileId === driveFileId);
+  if (!doc) return;
+  const slug = doc.clientSlug;
+
+  // Remove locally
+  documents = documents.filter(d => d.driveFileId !== driveFileId);
+
+  if (!CONFIG.appsScriptUrl.includes('PASTE')) {
+    try {
+      await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'deleteDocument', driveFileId })
+      });
+    } catch (err) { console.error('Delete error:', err); }
+  }
+
+  showClientDetail(slug);
+  showToast('Document deleted', 'success');
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      // strip "data:[mime];base64," prefix
+      const base64 = dataUrl.split(',')[1];
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+
+function getSlug(c) {
+  const parts = c.name.split(' ');
+  return `${(parts[0][0] + parts[parts.length - 1][0]).toUpperCase()}-${c.phone.slice(-4)}`;
+}
+function getInitials(name) {
+  const parts = name.split(' ');
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+function calcExpected(loaned) { return loaned * 1.33 + 172.50 + 69; }
+function getExpected(c) { return c.expected || calcExpected(c.loaned); }
+function getOutstanding(c) { return Math.max(0, getExpected(c) - c.paid); }
+function formatZAR(n) { return 'R' + Math.round(n).toLocaleString('en-ZA'); }
+function formatDate(d) { return d ? new Date(d).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'; }
+function formatFullDate(d) { return d ? new Date(d).toLocaleString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'; }
+function formatBytes(b) {
+  b = Number(b) || 0;
+  if (b < 1024) return b + ' B';
+  if (b < 1024 * 1024) return Math.round(b / 1024) + ' KB';
+  return (b / (1024 * 1024)).toFixed(1) + ' MB';
+}
+function channelLabel(c) { return { debicheck: 'DebiCheck', eft: 'EFT', cash: 'Cash' }[c] || c; }
+function statusLabel(s) {
+  return {
+    pending: 'Pending', 'mandate-loaded': 'Mandate Loaded', rejected: 'Rejected',
+    overdue: 'Overdue', partial: 'Partial', paid: 'Settled', review: 'Debt Review', dismissed: 'Dismissed'
+  }[s] || s;
+}
+
+function showToast(msg, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show ' + type;
+  setTimeout(() => { toast.classList.remove('show'); }, 3500);
+}
+</script>
+
+</body>
+</html>

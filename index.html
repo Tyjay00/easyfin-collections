@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easyfin Tech — Client Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy-900: #0a1a2f;
+  --navy-800: #102a48;
+  --navy-700: #1a3a5f;
+  --navy-600: #244c7a;
+  --teal-500: #14a8b8;
+  --teal-400: #3dbecd;
+  --teal-300: #7ad5e0;
+  --cream-50: #fdfaf5;
+  --cream-100: #f7f0e3;
+  --cream-200: #ede2cd;
+  --stone-300: #d4c8b3;
+  --stone-500: #7a7165;
+  --stone-700: #3d3933;
+  --amber-500: #d97706;
+  --amber-100: #fef3c7;
+  --green-600: #15803d;
+  --green-100: #dcfce7;
+  --red-600: #b91c1c;
+  --red-100: #fee2e2;
+  --slate-100: #f1f5f9;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: 'Manrope', system-ui, sans-serif;
+  background: var(--cream-50);
+  color: var(--stone-700);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body {
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(20,168,184,0.05), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(36,76,122,0.05), transparent 40%);
+}
+
+/* Header */
+.header {
+  background: white;
+  border-bottom: 1px solid var(--stone-300);
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--navy-900);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--teal-500), var(--navy-700));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+}
+.logo-tag { color: var(--teal-500); font-style: italic; }
+.header-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--stone-500);
+  text-align: right;
+  line-height: 1.4;
+}
+.header-meta strong { color: var(--navy-700); }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 32px;
+}
+
+/* Not-found state */
+.not-found {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.not-found h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 36px;
+  color: var(--navy-900);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.not-found p {
+  color: var(--stone-500);
+  margin-bottom: 24px;
+}
+
+/* Client portal */
+.client-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+  padding-bottom: 36px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--stone-300);
+}
+.client-hero-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal-500);
+  margin-bottom: 12px;
+}
+.client-hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(32px, 4vw, 48px);
+  color: var(--navy-900);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.client-hero .id-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--stone-500);
+}
+.client-hero .id-line span { color: var(--navy-700); font-weight: 500; }
+.client-hero-badge { text-align: right; }
+.client-hero-badge .badge { font-size: 13px; padding: 6px 14px; margin-bottom: 8px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.badge.overdue { background: var(--red-100); color: var(--red-600); }
+.badge.partial { background: var(--amber-100); color: var(--amber-500); }
+.badge.paid { background: var(--green-100); color: var(--green-600); }
+.badge.review { background: #ede9fe; color: #6d28d9; }
+.badge.dismissed { background: var(--slate-100); color: var(--stone-500); }
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.card h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--navy-900);
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card h2 .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--teal-500);
+  background: rgba(20,168,184,0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--stone-500);
+  margin-bottom: 14px;
+  margin-top: 24px;
+}
+.card h3:first-of-type { margin-top: 0; }
+
+.balance-display {
+  background: linear-gradient(135deg, var(--navy-900), var(--navy-700));
+  color: white;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.balance-display::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(20,168,184,0.15), transparent 70%);
+  border-radius: 50%;
+}
+.balance-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+.balance-amount {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 52px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.balance-amount .currency {
+  font-size: 24px;
+  opacity: 0.6;
+  margin-right: 6px;
+  vertical-align: top;
+  display: inline-block;
+  margin-top: 8px;
+}
+.balance-sub { font-size: 13px; opacity: 0.7; }
+
+.breakdown { display: grid; gap: 12px; }
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--cream-200);
+  font-size: 14px;
+}
+.breakdown-row:last-of-type { border-bottom: none; }
+.breakdown-row span:first-child { color: var(--stone-500); }
+.breakdown-row span:first-child small {
+  display: block;
+  font-size: 11px;
+  color: var(--stone-500);
+  font-style: italic;
+}
+.breakdown-row .value {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--navy-900);
+}
+.breakdown-row.total {
+  padding-top: 20px;
+  margin-top: 8px;
+  border-top: 2px solid var(--navy-900);
+  border-bottom: none;
+}
+.breakdown-row.total span:first-child { color: var(--navy-900); font-weight: 600; }
+.breakdown-row.total .value { font-size: 22px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--navy-900); color: white; width: 100%; }
+.btn-primary:hover { background: var(--navy-700); transform: translateY(-1px); }
+.btn-primary:disabled { background: var(--stone-300); cursor: not-allowed; transform: none; }
+.btn-secondary {
+  background: white;
+  color: var(--navy-900);
+  border: 1px solid var(--stone-300);
+  width: 100%;
+}
+.btn-secondary:hover { border-color: var(--navy-900); }
+.btn-teal { background: var(--teal-500); color: white; width: 100%; }
+.btn-teal:hover { background: #0d8a98; }
+
+.side-card {
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.side-card h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--navy-900);
+  margin-bottom: 14px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--cream-200);
+}
+.contact-row:last-child { border-bottom: none; }
+.contact-row .icon {
+  width: 32px; height: 32px;
+  background: var(--cream-100);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--teal-500);
+}
+.contact-row .label {
+  font-size: 11px;
+  color: var(--stone-500);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.contact-row .value { color: var(--navy-900); font-weight: 500; }
+
+.legal-notice {
+  background: #fffbeb;
+  border-left: 3px solid var(--amber-500);
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-size: 12.5px;
+  color: var(--stone-700);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.legal-notice strong { color: var(--navy-900); display: block; margin-bottom: 6px; font-size: 13px; }
+
+.rights-list { list-style: none; margin-top: 12px; }
+.rights-list li {
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--stone-700);
+  border-bottom: 1px solid var(--cream-200);
+  padding-left: 22px;
+  position: relative;
+  line-height: 1.5;
+}
+.rights-list li:last-child { border-bottom: none; }
+.rights-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 8px;
+  color: var(--teal-500);
+  font-weight: 700;
+}
+
+/* ============= AGREEMENT MODAL ============= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 26, 47, 0.7);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--cream-50);
+  border-radius: 16px;
+  max-width: 760px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(10,26,47,0.3);
+  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  background: var(--navy-900);
+  color: white;
+  padding: 28px 36px;
+  position: relative;
+}
+.modal-header h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.modal-header p { font-size: 13px; opacity: 0.7; }
+.modal-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.2); }
+
+.modal-body { padding: 32px 36px; }
+
+.step-indicator {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.step-indicator .step {
+  flex: 1;
+  height: 4px;
+  background: var(--stone-300);
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+.step-indicator .step.active { background: var(--teal-500); }
+.step-indicator .step.done { background: var(--green-600); }
+
+.step-content { display: none; }
+.step-content.active { display: block; animation: stepIn 0.3s ease-out; }
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.step-content h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--navy-900);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.step-content > p {
+  color: var(--stone-500);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Form elements */
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--stone-500);
+  margin-bottom: 8px;
+}
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--navy-900);
+  transition: border-color 0.15s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 3px rgba(20,168,184,0.15);
+}
+.form-group .hint {
+  font-size: 12px;
+  color: var(--stone-500);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.payment-option {
+  background: white;
+  border: 2px solid var(--stone-300);
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.payment-option:hover { border-color: var(--teal-400); }
+.payment-option.selected {
+  border-color: var(--teal-500);
+  background: rgba(20,168,184,0.05);
+}
+.payment-option .opt-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy-900);
+  margin-bottom: 4px;
+}
+.payment-option .opt-sub {
+  font-size: 11px;
+  color: var(--stone-500);
+}
+
+/* Checkbox styling */
+.checkbox-group {
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.checkbox-group:hover { border-color: var(--teal-400); }
+.checkbox-group.checked {
+  border-color: var(--teal-500);
+  background: rgba(20,168,184,0.04);
+}
+.checkbox-group input[type="checkbox"] {
+  width: 20px; height: 20px;
+  margin-top: 1px;
+  accent-color: var(--teal-500);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.checkbox-group .cb-text {
+  font-size: 13px;
+  color: var(--stone-700);
+  line-height: 1.5;
+}
+.checkbox-group .cb-text strong {
+  color: var(--navy-900);
+  font-weight: 600;
+}
+
+/* Signature box */
+.signature-box {
+  background: white;
+  border: 2px dashed var(--stone-300);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.signature-box input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--navy-900);
+  padding: 12px 0;
+  font-family: 'Caveat', cursive;
+  font-size: 32px;
+  text-align: center;
+  color: var(--navy-900);
+  outline: none;
+}
+.signature-box input::placeholder {
+  color: var(--stone-300);
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+}
+.signature-box .sig-label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--stone-500);
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* Summary box (step 3) */
+.summary-box {
+  background: white;
+  border: 1px solid var(--stone-300);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 13px;
+  border-bottom: 1px dashed var(--cream-200);
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-row .lbl { color: var(--stone-500); }
+.summary-row .val { color: var(--navy-900); font-weight: 600; text-align: right; }
+
+.full-agreement-text {
+  background: var(--cream-100);
+  border: 1px solid var(--stone-300);
+  border-radius: 10px;
+  padding: 18px;
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--stone-700);
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.full-agreement-text strong { color: var(--navy-900); }
+
+/* Step navigation */
+.step-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--cream-200);
+}
+.step-nav .btn { flex: 1; }
+
+/* Success state */
+.success-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+.success-icon {
+  width: 80px; height: 80px;
+  background: var(--green-100);
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: var(--green-600);
+  animation: pop 0.4s cubic-bezier(0.16, 1.4, 0.3, 1);
+}
+@keyframes pop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+.success-state h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--navy-900);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.success-state p {
+  color: var(--stone-500);
+  margin-bottom: 8px;
+}
+.ref-code {
+  display: inline-block;
+  background: var(--navy-900);
+  color: white;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 16px 0 24px;
+}
+
+/* Footer */
+.footer {
+  max-width: 1280px;
+  margin: 60px auto 0;
+  padding: 32px;
+  border-top: 1px solid var(--stone-300);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  font-size: 12px;
+  color: var(--stone-500);
+  line-height: 1.6;
+}
+.footer .reg { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+/* Client portal document items */
+.client-doc-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--cream-100);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  transition: background 0.15s;
+}
+.client-doc-item:hover { background: var(--cream-200); }
+.client-doc-item .cdi-icon {
+  width: 32px; height: 32px;
+  background: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.client-doc-item .cdi-info { flex: 1; min-width: 0; }
+.client-doc-item .cdi-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.client-doc-item .cdi-meta {
+  font-size: 11px;
+  color: var(--stone-500);
+}
+.client-doc-item .cdi-action {
+  width: 30px; height: 30px;
+  background: var(--navy-900);
+  color: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.client-doc-item .cdi-action:hover { background: var(--navy-700); }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fade-in:nth-child(1) { animation-delay: 0.05s; }
+.fade-in:nth-child(2) { animation-delay: 0.1s; }
+.fade-in:nth-child(3) { animation-delay: 0.15s; }
+.fade-in:nth-child(4) { animation-delay: 0.2s; }
+
+@media (max-width: 900px) {
+  .container { padding: 24px 16px; }
+  .header { padding: 14px 16px; }
+  .portal-grid { grid-template-columns: 1fr; }
+  .client-hero { grid-template-columns: 1fr; }
+  .client-hero-badge { text-align: left; }
+  .balance-amount { font-size: 40px; }
+  .modal-body { padding: 24px 20px; }
+  .modal-header { padding: 22px 24px; }
+  .payment-options { grid-template-columns: 1fr; }
+  .footer { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a class="logo" href="https://easyfintech.co.za">
+    <div class="logo-mark">E</div>
+    <span>Easyfin<span class="logo-tag"> Tech</span></span>
+  </a>
+  <div class="header-meta">
+    <div>NCRCP18978 · <strong>Registered Credit Provider</strong></div>
+    <div>Reg: 2023/172600/07</div>
+  </div>
+</div>
+
+<div id="app" class="container"></div>
+
+<div class="footer">
+  <div>
+    <strong style="color: var(--navy-900); font-family: 'Fraunces', serif; font-size: 14px;">Easyfin Tech (Pty) Ltd</strong><br>
+    Thornhill Office Park, Building 7, 1st Floor, Bekker Road, Vorna Valley, Midrand, 1686<br>
+    (011) 468 1250 · info@easyfintech.co.za
+  </div>
+  <div class="reg">
+    NCRCP18978<br>
+    Reg: 2023/172600/07<br>
+    POPIA Compliant
+  </div>
+</div>
+
+<!-- Agreement Modal -->
+<div class="modal-overlay" id="agreement-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h1>Payment Arrangement Agreement</h1>
+      <p>Section 124 of the National Credit Act, 2005</p>
+      <button class="modal-close" onclick="closeAgreementModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION
+// ============================================================
+
+const CONFIG = {
+  interestRate: 0.33,
+  initiationFee: 172.50,
+  serviceFee: 69,
+  defaultPenaltyPct: 0.10,
+  // PASTE YOUR APPS SCRIPT WEB APP URL HERE AFTER DEPLOYMENT
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwC4iRDrPvIMfoshGJ0cbgzCZ2KKaszMHG9P7xPpc-sVVcUOAJeF0WL4-SlRfc-2-yy/exec',
+  // PASTE YOUR PUBLISHED DOCUMENTS CSV URL HERE
+  documentsCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIjUV8uK3_uTVbcKp1do_u7X5p52R1YSUUiLh_LBKQGCoYEP8JZ0aA2sQG9nDlDTGIcZiEiAehN-zA/pub?output=csv'
+};
+
+const clients = [
+  { name: 'Gavin Swart', phone: '0827642381', altContact: 'Waldo Raath – 0813345354', loaned: 7000, expected: null, paid: 0, payday: '25th', status: 'overdue', notes: '' },
+  { name: 'Bandzi Brandon Kunene', phone: '0630380302', altContact: 'Zano – 0718139041', loaned: 1500, expected: null, paid: 0, payday: '25th', status: 'overdue', notes: '' },
+  { name: 'Nakita Peach', phone: '0716279336', altContact: 'Bridgette – 0814572744', loaned: 7000, expected: null, paid: 3700, payday: '25th', status: 'partial', notes: '' },
+  { name: 'Ruan Johnson', phone: '0828822392', altContact: 'Alfred – 0828234761', loaned: 5000, expected: null, paid: 0, payday: '25th', status: 'overdue', notes: '' },
+  { name: 'Elsie Labuschagne', phone: '0724656949', altContact: 'B Viljoen – 0660508599', loaned: 6000, expected: null, paid: 500, payday: '25th', status: 'partial', notes: '' },
+  { name: 'Eurika Cooks', phone: '0673676932', altContact: 'Yolandi – 0730375807', loaned: 5000, expected: null, paid: 0, payday: '25th', status: 'review', notes: 'Debt review' },
+  { name: 'Jeremia Mbengeni Molele', phone: '0711865806', altContact: '0822173435', loaned: 5000, expected: null, paid: 0, payday: '25th', status: 'overdue', notes: '' },
+  { name: 'Puseletso Moodly Mokobodi', phone: '0814654343', altContact: '0782013317', loaned: 3000, expected: null, paid: 1400, payday: '25th', status: 'partial', notes: '' },
+  { name: 'Sihle Steven Zungu', phone: '0726180183', altContact: 'Linah – 0783726714', loaned: 7000, expected: null, paid: 3000, payday: '25th', status: 'partial', notes: '' },
+  { name: 'Velile Lehlohonolo Magaba', phone: '0624919428', altContact: 'Leo Motoko – 0715659028', loaned: 5500, expected: null, paid: 1000, payday: '28th', status: 'partial', notes: '' },
+  { name: 'Motlatsi Hendrick Pheko', phone: '0785091527', altContact: 'Isaac Pheko – 0784785781', loaned: 3500, expected: null, paid: 0, payday: '25th', status: 'overdue', notes: '' },
+  { name: 'Minky Isabella Masuku', phone: '0685894716', altContact: 'Koketso – 0824709014', loaned: 6000, expected: null, paid: 2400, payday: '25th', status: 'partial', notes: '' },
+  { name: 'Thabang Stephen Thabethe', phone: '0730845976', altContact: '0712123969', loaned: 7000, expected: 9551.50, paid: 0, payday: '–', status: 'overdue', notes: '' },
+  { name: 'Tebogo Frans Mashele', phone: '0728044494', altContact: '0728044494', loaned: 2000, expected: 2901.50, paid: 0, payday: '–', status: 'overdue', notes: '' },
+  { name: 'Siphesihle Dyantyi', phone: '0630944128', altContact: '0720439925', loaned: 3000, expected: 4231.50, paid: 0, payday: '–', status: 'overdue', notes: '' },
+  { name: 'Tshifhiwa Simon Nkhumeleni', phone: '0608734724', altContact: 'Vhutsho – 0791551069', loaned: 500, expected: 640, paid: 0, payday: '–', status: 'overdue', notes: '' },
+  { name: 'Reginah Khumbuzile Mokoena', phone: '0659053479', altContact: '0693239790', loaned: 3000, expected: 3840, paid: 0, payday: '–', status: 'dismissed', notes: 'Dismissed' },
+  { name: 'Willem Adriaan Verster', phone: '0664152932', altContact: '0644025645', loaned: 4000, expected: 5120, paid: 0, payday: '–', status: 'review', notes: 'Debt review' },
+  { name: 'Boitumelo Stella', phone: '0791668752', altContact: '0719170423', loaned: 2000, expected: 2894, paid: 2400, payday: '20th', status: 'paid', notes: 'Settled' },
+  { name: 'Marie Hugo', phone: '0794294780', altContact: 'Ester Hugo – 0843912346', loaned: 5000, expected: 6650, paid: 2034, payday: '30th', status: 'partial', notes: 'Remaining R5,703' },
+  { name: 'Vhavhuya Mutshinyane', phone: '0712534599', altContact: '0818717066', loaned: 13919, expected: 15311, paid: 5600, payday: '–', status: 'partial', notes: 'Arrangements with field agent' },
+  { name: 'Khethani Mathews Mthembu', phone: '0764074826', altContact: 'Hleziphi – 0725824203', loaned: 13000, expected: 18850, paid: 0, payday: '23rd', status: 'overdue', notes: '' },
+  { name: 'Katleho Lewis Selai', phone: '0728861776', altContact: '0713512299', loaned: 1500, expected: 1920, paid: 0, payday: '–', status: 'overdue', notes: '' }
+];
+
+// ============================================================
+// HELPERS
+// ============================================================
+
+function calcExpected(loaned) {
+  return loaned * (1 + CONFIG.interestRate) + CONFIG.initiationFee + CONFIG.serviceFee;
+}
+function calcInterest(loaned) { return loaned * CONFIG.interestRate; }
+function getExpected(c) { return c.expected || calcExpected(c.loaned); }
+function getOutstanding(c) { return Math.max(0, getExpected(c) - c.paid); }
+function getSlug(c) {
+  const parts = c.name.split(' ');
+  const initials = parts[0][0] + parts[parts.length - 1][0];
+  return `${initials.toUpperCase()}-${c.phone.slice(-4)}`;
+}
+function formatZAR(n) {
+  const rounded = Math.round(n * 100) / 100;
+  return 'R' + rounded.toLocaleString('en-ZA', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+function statusLabel(s) {
+  return { overdue: 'Overdue', partial: 'Partial', paid: 'Settled', review: 'Debt Review', dismissed: 'Dismissed' }[s];
+}
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+}
+
+// ============================================================
+// CLIENT LOOKUP (subdomain or hash fallback)
+// ============================================================
+
+function findClient() {
+  const host = window.location.hostname;
+  const parts = host.split('.');
+
+  // Production: subdomain matching (willem.easyfinlegalcollections.website)
+  if (parts.length >= 3 && parts[0] !== 'www' && parts[0] !== 'portal') {
+    const sub = parts[0].toLowerCase();
+    const match = clients.find(c => {
+      const surname = c.name.split(' ').pop().toLowerCase();
+      return surname === sub || getSlug(c).toLowerCase() === sub;
+    });
+    if (match) return match;
+  }
+
+  // Local/preview: hash routing
+  const hash = window.location.hash.slice(1);
+  if (hash.startsWith('/client/')) {
+    return clients.find(c => getSlug(c) === hash.slice(8));
+  }
+
+  // Demo default
+  return clients.find(c => c.name === 'Willem Adriaan Verster');
+}
+
+// ============================================================
+// RENDER CLIENT PORTAL
+// ============================================================
+
+function renderApp() {
+  const client = findClient();
+  if (!client) {
+    document.getElementById('app').innerHTML = `
+      <div class="not-found">
+        <h1>Account not found</h1>
+        <p>This account is not active or the link is invalid. Please contact Easyfin Tech on (011) 468 1250 for assistance.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const expected = getExpected(client);
+  const interest = calcInterest(client.loaned);
+  const outstanding = getOutstanding(client);
+  const defaultPenalty = expected * CONFIG.defaultPenaltyPct;
+
+  const statusMessages = {
+    overdue: { title: 'Your account is overdue', sub: 'Please arrange payment to avoid further action' },
+    partial: { title: 'Outstanding balance on your account', sub: 'Thank you for partial payments received' },
+    paid: { title: 'Account settled', sub: 'Thank you — your loan has been fully repaid' },
+    review: { title: 'Account flagged: Debt review', sub: 'Under debt counsellor administration per NCA Section 86' },
+    dismissed: { title: 'Account closed', sub: 'This account is no longer being actively collected' }
+  };
+  const msg = statusMessages[client.status];
+
+  window.currentClient = client; // expose for modal
+
+  document.getElementById('app').innerHTML = `
+    <div class="client-hero fade-in">
+      <div>
+        <div class="client-hero-title">Personal Account Portal</div>
+        <h1>${client.name}</h1>
+        <div class="id-line">
+          Account: <span>${getSlug(client)}</span> &nbsp;·&nbsp;
+          Contact: <span>${client.phone}</span>
+        </div>
+      </div>
+      <div class="client-hero-badge">
+        <span class="badge ${client.status}">${statusLabel(client.status)}</span>
+        <div style="font-size: 12px; color: var(--stone-500); margin-top: 8px;">Last updated: ${new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+      </div>
+    </div>
+
+    <div class="portal-grid">
+      <div>
+        <div class="card fade-in">
+          <h2>Loan summary <span class="num">NCA §92</span></h2>
+
+          <div class="balance-display">
+            <div class="balance-label">Total amount outstanding</div>
+            <div class="balance-amount"><span class="currency">R</span>${outstanding.toLocaleString('en-ZA', { maximumFractionDigits: 2 })}</div>
+            <div class="balance-sub">${msg.title} · ${msg.sub}</div>
+          </div>
+
+          <h3>Original loan breakdown</h3>
+          <div class="breakdown">
+            <div class="breakdown-row">
+              <span>Principal advanced<small>Credit advance per Form 20.2</small></span>
+              <span class="value">${formatZAR(client.loaned)}</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Interest at 28% p.a.<small>NCA-compliant maximum for unsecured</small></span>
+              <span class="value">${formatZAR(interest)}</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Initiation fee<small>Once-off, NCA Regulation 42</small></span>
+              <span class="value">${formatZAR(CONFIG.initiationFee)}</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Monthly service fee<small>Per NCA prescribed rate</small></span>
+              <span class="value">${formatZAR(CONFIG.serviceFee)}</span>
+            </div>
+            <div class="breakdown-row total">
+              <span>Total repayment due</span>
+              <span class="value">${formatZAR(expected)}</span>
+            </div>
+            ${client.paid > 0 ? `
+              <div class="breakdown-row" style="color: var(--green-600);">
+                <span style="color: var(--green-600) !important;">Less: Payments received</span>
+                <span class="value" style="color: var(--green-600);">- ${formatZAR(client.paid)}</span>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+
+        ${client.status !== 'paid' && client.status !== 'dismissed' && client.status !== 'review' ? `
+          <div class="card fade-in">
+            <h2>Settle your account <span class="num">§124</span></h2>
+            <p style="color: var(--stone-500); font-size: 14px; margin-bottom: 20px;">Choose how you would like to resolve your outstanding balance. Once you submit an arrangement, our team will set up your DebiCheck mandate and contact you to confirm.</p>
+
+            <button class="btn btn-primary" onclick="openAgreementModal()">
+              Make a payment arrangement →
+            </button>
+            <p style="font-size: 12px; color: var(--stone-500); margin-top: 14px; text-align: center;">
+              Or call us directly on (011) 468 1250 for assistance.
+            </p>
+          </div>
+        ` : ''}
+
+        <div class="card fade-in">
+          <h2>Your rights as a consumer</h2>
+          <div class="legal-notice">
+            <strong>Notice in terms of the National Credit Act 34 of 2005</strong>
+            Easyfin Tech is a registered credit provider (NCRCP18978). All communications and collection activities are conducted in accordance with the NCA, POPIA, and the Consumer Protection Act.
+          </div>
+          <ul class="rights-list">
+            <li>You may settle your account in full at any time without penalty (NCA Section 125).</li>
+            <li>You may apply for debt review with a registered debt counsellor (NCA Section 86).</li>
+            <li>You may approach the National Credit Regulator if you believe your rights have been infringed.</li>
+            <li>You may dispute any amount on this statement by contacting us in writing within 20 business days.</li>
+            <li>Mediation and arbitration are available for disputes via the Secretariat of National Arbitrators.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="side-card fade-in">
+          <h3>Need to talk to us?</h3>
+          <div class="contact-row">
+            <div class="icon">📞</div>
+            <div><div class="label">Call us</div><div class="value">(011) 468 1250</div></div>
+          </div>
+          <div class="contact-row">
+            <div class="icon">✉️</div>
+            <div><div class="label">Email</div><div class="value">info@easyfintech.co.za</div></div>
+          </div>
+          <div class="contact-row">
+            <div class="icon">📍</div>
+            <div><div class="label">Visit us</div><div class="value">Thornhill Office Park, Bldg 7<br>Vorna Valley, Midrand</div></div>
+          </div>
+        </div>
+
+        ${client.status === 'overdue' || client.status === 'partial' ? `
+          <div class="side-card fade-in" style="border-color: var(--amber-500); background: #fffbf5;">
+            <h3 style="color: var(--amber-500);">⚠ Default charges may apply</h3>
+            <p style="font-size: 13px; color: var(--stone-700); line-height: 1.6;">
+              Per Clause 5 of your loan agreement, a default penalty of <strong style="color: var(--navy-900);">${formatZAR(defaultPenalty)}</strong> (10% of total repayment) may be levied if your account remains unpaid. Settling now avoids this charge.
+            </p>
+          </div>
+        ` : ''}
+
+        ${client.status === 'review' ? `
+          <div class="side-card fade-in" style="border-color: #6d28d9; background: #faf5ff;">
+            <h3 style="color: #6d28d9;">Under debt review</h3>
+            <p style="font-size: 13px; color: var(--stone-700); line-height: 1.6;">
+              Your account has been flagged for debt review per NCA Section 86. Direct collection activity is suspended. Please liaise with your debt counsellor or contact us for assistance.
+            </p>
+          </div>
+        ` : ''}
+
+        <div class="side-card fade-in">
+          <h3>Your documents</h3>
+          <p style="font-size: 13px; color: var(--stone-500); margin-bottom: 12px; line-height: 1.55;">
+            Documents on file for your account. These are securely stored and may be downloaded at any time.
+          </p>
+          <div id="documents-list">
+            <p style="font-size: 12px; color: var(--stone-500); padding: 8px 0; font-style: italic;">Loading documents...</p>
+          </div>
+        </div>
+
+        <div class="side-card fade-in">
+          <h3>Alternative contact</h3>
+          <p style="font-size: 13px; color: var(--stone-500); margin-bottom: 8px;">Reference on file</p>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--navy-900); padding: 10px 14px; background: var(--cream-100); border-radius: 8px;">
+            ${client.altContact}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Load documents asynchronously after main render
+  loadClientDocuments(client);
+}
+
+// ============================================================
+// AGREEMENT MODAL — Multi-step flow
+// ============================================================
+
+let modalState = {
+  step: 1,
+  paymentType: null,
+  amount: null,
+  date: null,
+  channel: null,
+  signature: '',
+  consents: { debt: false, mandate: false, popia: false }
+};
+
+function openAgreementModal() {
+  modalState = {
+    step: 1,
+    paymentType: null,
+    amount: getOutstanding(window.currentClient),
+    date: null,
+    channel: 'debicheck',
+    signature: '',
+    consents: { debt: false, mandate: false, popia: false }
+  };
+  document.getElementById('agreement-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderStep();
+}
+
+function closeAgreementModal() {
+  document.getElementById('agreement-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderStep() {
+  const client = window.currentClient;
+  const outstanding = getOutstanding(client);
+  const body = document.getElementById('modal-body');
+
+  const stepIndicator = `
+    <div class="step-indicator">
+      <div class="step ${modalState.step >= 1 ? 'active' : ''} ${modalState.step > 1 ? 'done' : ''}"></div>
+      <div class="step ${modalState.step >= 2 ? 'active' : ''} ${modalState.step > 2 ? 'done' : ''}"></div>
+      <div class="step ${modalState.step >= 3 ? 'active' : ''} ${modalState.step > 3 ? 'done' : ''}"></div>
+      <div class="step ${modalState.step >= 4 ? 'active' : ''}"></div>
+    </div>
+  `;
+
+  if (modalState.step === 1) {
+    body.innerHTML = stepIndicator + `
+      <div class="step-content active">
+        <h2>1. Acknowledge your account</h2>
+        <p>Please confirm the outstanding balance on your account before proceeding.</p>
+
+        <div class="summary-box">
+          <div class="summary-row"><span class="lbl">Account holder</span><span class="val">${client.name}</span></div>
+          <div class="summary-row"><span class="lbl">Account number</span><span class="val">${getSlug(client)}</span></div>
+          <div class="summary-row"><span class="lbl">Original loan</span><span class="val">${formatZAR(client.loaned)}</span></div>
+          <div class="summary-row"><span class="lbl">Total repayment due</span><span class="val">${formatZAR(getExpected(client))}</span></div>
+          ${client.paid > 0 ? `<div class="summary-row"><span class="lbl">Already paid</span><span class="val" style="color: var(--green-600);">${formatZAR(client.paid)}</span></div>` : ''}
+          <div class="summary-row" style="border-top: 2px solid var(--navy-900); padding-top: 14px; margin-top: 6px;">
+            <span class="lbl" style="font-weight: 700; color: var(--navy-900);">Outstanding</span>
+            <span class="val" style="font-size: 18px;">${formatZAR(outstanding)}</span>
+          </div>
+        </div>
+
+        <div class="checkbox-group ${modalState.consents.debt ? 'checked' : ''}" onclick="toggleConsent('debt')">
+          <input type="checkbox" ${modalState.consents.debt ? 'checked' : ''} onclick="event.stopPropagation()" onchange="toggleConsent('debt')">
+          <div class="cb-text">
+            <strong>I acknowledge the debt.</strong> I confirm that I have an outstanding balance of <strong>${formatZAR(outstanding)}</strong> owed to Easyfin Tech (Pty) Ltd under loan account ${getSlug(client)}, and that this amount is lawfully due.
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="closeAgreementModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="nextStep()" ${!modalState.consents.debt ? 'disabled' : ''}>Continue →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  else if (modalState.step === 2) {
+    body.innerHTML = stepIndicator + `
+      <div class="step-content active">
+        <h2>2. Choose your payment plan</h2>
+        <p>Select how you would like to settle your outstanding balance of ${formatZAR(outstanding)}.</p>
+
+        <h3 style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--stone-500); margin-bottom: 10px;">Payment structure</h3>
+        <div class="payment-options">
+          <div class="payment-option ${modalState.paymentType === 'full' ? 'selected' : ''}" onclick="setPaymentType('full')">
+            <div class="opt-title">Full settlement</div>
+            <div class="opt-sub">${formatZAR(outstanding)} in one payment</div>
+          </div>
+          <div class="payment-option ${modalState.paymentType === 'split2' ? 'selected' : ''}" onclick="setPaymentType('split2')">
+            <div class="opt-title">2 installments</div>
+            <div class="opt-sub">${formatZAR(outstanding / 2)} × 2</div>
+          </div>
+          <div class="payment-option ${modalState.paymentType === 'split3' ? 'selected' : ''}" onclick="setPaymentType('split3')">
+            <div class="opt-title">3 installments</div>
+            <div class="opt-sub">${formatZAR(outstanding / 3)} × 3</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>First payment date</label>
+          <input type="date" id="payment-date" value="${modalState.date || ''}" min="${new Date().toISOString().split('T')[0]}" onchange="modalState.date = this.value">
+          <div class="hint">Subsequent installments (if any) will be deducted on the same date each month.</div>
+        </div>
+
+        <div class="form-group">
+          <label>Payment channel</label>
+          <select id="payment-channel" onchange="modalState.channel = this.value">
+            <option value="debicheck" ${modalState.channel === 'debicheck' ? 'selected' : ''}>DebiCheck mandate (recommended)</option>
+            <option value="eft" ${modalState.channel === 'eft' ? 'selected' : ''}>Manual EFT</option>
+            <option value="cash">Cash deposit</option>
+          </select>
+          <div class="hint">DebiCheck mandates require authentication via your bank app after submission.</div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+          <button class="btn btn-primary" onclick="nextStep()" ${(!modalState.paymentType || !modalState.date) ? 'disabled' : ''}>Continue →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  else if (modalState.step === 3) {
+    const installments = modalState.paymentType === 'full' ? 1 : (modalState.paymentType === 'split2' ? 2 : 3);
+    const perPayment = outstanding / installments;
+    const channelText = { debicheck: 'DebiCheck Mandate', eft: 'Manual EFT', cash: 'Cash Deposit' }[modalState.channel];
+
+    body.innerHTML = stepIndicator + `
+      <div class="step-content active">
+        <h2>3. Authorise & consent</h2>
+        <p>Review your arrangement and provide the consents required under the NCA and POPIA.</p>
+
+        <div class="summary-box">
+          <div class="summary-row"><span class="lbl">Total amount</span><span class="val">${formatZAR(outstanding)}</span></div>
+          <div class="summary-row"><span class="lbl">Installments</span><span class="val">${installments} × ${formatZAR(perPayment)}</span></div>
+          <div class="summary-row"><span class="lbl">First payment</span><span class="val">${new Date(modalState.date).toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' })}</span></div>
+          <div class="summary-row"><span class="lbl">Channel</span><span class="val">${channelText}</span></div>
+        </div>
+
+        ${modalState.channel === 'debicheck' ? `
+          <div class="checkbox-group ${modalState.consents.mandate ? 'checked' : ''}" onclick="toggleConsent('mandate')">
+            <input type="checkbox" ${modalState.consents.mandate ? 'checked' : ''} onclick="event.stopPropagation()" onchange="toggleConsent('mandate')">
+            <div class="cb-text">
+              <strong>DebiCheck mandate authorisation.</strong> I authorise Easyfin Tech (Pty) Ltd to register a DebiCheck mandate with my bank for the amounts and dates set out above. I understand that I will receive a separate notification from my bank requesting biometric authentication of this mandate, and that no funds will be deducted until I authenticate.
+            </div>
+          </div>
+        ` : `
+          <div class="checkbox-group ${modalState.consents.mandate ? 'checked' : ''}" onclick="toggleConsent('mandate')">
+            <input type="checkbox" ${modalState.consents.mandate ? 'checked' : ''} onclick="event.stopPropagation()" onchange="toggleConsent('mandate')">
+            <div class="cb-text">
+              <strong>Payment undertaking.</strong> I undertake to make the payments set out above on the specified dates. Failure to do so may result in the original loan agreement default provisions becoming applicable.
+            </div>
+          </div>
+        `}
+
+        <div class="checkbox-group ${modalState.consents.popia ? 'checked' : ''}" onclick="toggleConsent('popia')">
+          <input type="checkbox" ${modalState.consents.popia ? 'checked' : ''} onclick="event.stopPropagation()" onchange="toggleConsent('popia')">
+          <div class="cb-text">
+            <strong>POPIA consent.</strong> I consent to Easyfin Tech (Pty) Ltd processing my personal information for the purposes of administering this payment arrangement, in accordance with the Protection of Personal Information Act, 2013. I understand my rights under POPIA and that I may withdraw this consent at any time.
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+          <button class="btn btn-primary" onclick="nextStep()" ${(!modalState.consents.mandate || !modalState.consents.popia) ? 'disabled' : ''}>Continue to sign →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  else if (modalState.step === 4) {
+    const installments = modalState.paymentType === 'full' ? 1 : (modalState.paymentType === 'split2' ? 2 : 3);
+    const perPayment = outstanding / installments;
+    const channelText = { debicheck: 'DebiCheck Mandate', eft: 'Manual EFT', cash: 'Cash Deposit' }[modalState.channel];
+
+    const agreementText = `PAYMENT ARRANGEMENT AGREEMENT — ${getSlug(client)}
+Date: ${new Date().toISOString()}
+Borrower: ${client.name} (ID per loan file)
+Creditor: Easyfin Tech (Pty) Ltd — NCRCP18978
+
+The Borrower acknowledges the outstanding amount of ${formatZAR(outstanding)} and undertakes to pay this in ${installments} installment(s) of ${formatZAR(perPayment)} each, with the first payment on ${modalState.date}, via ${channelText}.
+
+The Borrower consents to the DebiCheck mandate registration (where applicable) and to processing of personal information per POPIA.
+
+This arrangement does not waive or replace the original loan agreement; it constitutes a payment arrangement under NCA Section 124.`;
+
+    body.innerHTML = stepIndicator + `
+      <div class="step-content active">
+        <h2>4. Sign & submit</h2>
+        <p>Please read the full agreement below, then type your full name as it appears on your loan agreement to sign.</p>
+
+        <h3 style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--stone-500); margin-bottom: 10px;">Full agreement text</h3>
+        <div class="full-agreement-text">${agreementText.split('\n').map(l => l ? `<div>${l}</div>` : '<br>').join('')}</div>
+
+        <div class="signature-box">
+          <input type="text" id="signature-input" placeholder="Type your full name to sign" value="${modalState.signature}" oninput="modalState.signature = this.value; document.getElementById('submit-btn').disabled = !this.value || this.value.trim().split(' ').length < 2;">
+          <div class="sig-label">Signature · ${new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+        </div>
+
+        <p style="font-size: 11px; color: var(--stone-500); text-align: center; margin-top: 14px; line-height: 1.6;">
+          By signing, you create a legally binding electronic signature under the Electronic Communications and Transactions Act, 2002.
+          Your IP address and the timestamp will be recorded as part of the audit trail.
+        </p>
+
+        <div class="step-nav">
+          <button class="btn btn-secondary" onclick="prevStep()">← Back</button>
+          <button class="btn btn-primary" id="submit-btn" onclick="submitAgreement()" disabled>Submit agreement</button>
+        </div>
+      </div>
+    `;
+  }
+
+  else if (modalState.step === 5) {
+    body.innerHTML = `
+      <div class="success-state">
+        <div class="success-icon">✓</div>
+        <h2>Agreement submitted</h2>
+        <p>Your payment arrangement has been recorded.</p>
+        <div class="ref-code">REF: ${modalState.refCode}</div>
+        <p style="font-size: 13px; max-width: 420px; margin: 0 auto;">
+          Our team will be in touch within 24 hours to confirm your DebiCheck mandate setup. You will receive a separate notification from your bank to authenticate the mandate.
+        </p>
+        <button class="btn btn-primary" style="max-width: 240px; margin-top: 28px;" onclick="closeAgreementModal()">Close</button>
+      </div>
+    `;
+  }
+}
+
+function nextStep() { modalState.step++; renderStep(); }
+function prevStep() { modalState.step--; renderStep(); }
+
+function toggleConsent(key) {
+  modalState.consents[key] = !modalState.consents[key];
+  renderStep();
+}
+
+function setPaymentType(type) {
+  modalState.paymentType = type;
+  renderStep();
+}
+
+async function submitAgreement() {
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const client = window.currentClient;
+  const outstanding = getOutstanding(client);
+  const installments = modalState.paymentType === 'full' ? 1 : (modalState.paymentType === 'split2' ? 2 : 3);
+
+  const agreementText = `${getSlug(client)}|${client.name}|${outstanding}|${installments}|${modalState.date}|${modalState.channel}|${modalState.signature}|${Date.now()}`;
+  const hash = await sha256(agreementText);
+  const refCode = `EFA-${hash.slice(0, 8).toUpperCase()}`;
+  modalState.refCode = refCode;
+
+  const payload = {
+    refCode,
+    accountSlug: getSlug(client),
+    clientName: client.name,
+    clientPhone: client.phone,
+    outstandingAmount: outstanding,
+    installments,
+    perPaymentAmount: outstanding / installments,
+    firstPaymentDate: modalState.date,
+    channel: modalState.channel,
+    signatureName: modalState.signature,
+    agreementHash: hash,
+    timestamp: new Date().toISOString(),
+    userAgent: navigator.userAgent
+  };
+
+  // Submit to Apps Script backend (using no-cors due to Apps Script CORS limitations)
+  if (CONFIG.appsScriptUrl && !CONFIG.appsScriptUrl.includes('PASTE')) {
+    try {
+      await fetch(CONFIG.appsScriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error('Submission error:', err);
+    }
+  } else {
+    console.log('[DEMO MODE] Agreement payload:', payload);
+  }
+
+  modalState.step = 5;
+  renderStep();
+}
+
+// ============================================================
+// DOCUMENTS — fetch and render client's own documents
+// ============================================================
+
+async function loadClientDocuments(client) {
+  const slug = getSlug(client);
+  const listEl = document.getElementById('documents-list');
+  if (!listEl) return;
+
+  // Demo / sample docs (used when CSV URL not configured)
+  const SAMPLE_DOCS = {
+    'WV-2932': [
+      { docType: 'Loan Agreement', fileName: 'verster_loan_agreement.pdf', fileSize: 487291, mimeType: 'application/pdf', viewUrl: '#demo', downloadUrl: '#demo', timestamp: '2026-01-31T10:00:00Z' }
+    ],
+    'BS-8752': [
+      { docType: 'Loan Agreement', fileName: 'stella_loan_agreement.pdf', fileSize: 412908, mimeType: 'application/pdf', viewUrl: '#demo', downloadUrl: '#demo', timestamp: '2026-02-15T14:30:00Z' },
+      { docType: 'ID Copy', fileName: 'stella_id.pdf', fileSize: 156204, mimeType: 'application/pdf', viewUrl: '#demo', downloadUrl: '#demo', timestamp: '2026-02-15T14:32:00Z' }
+    ]
+  };
+
+  let docs = [];
+
+  if (CONFIG.documentsCsvUrl.includes('PASTE')) {
+    docs = SAMPLE_DOCS[slug] || [];
+  } else {
+    try {
+      const resp = await fetch(CONFIG.documentsCsvUrl);
+      const csv = await resp.text();
+      const all = parseDocsCSV(csv);
+      docs = all.filter(d => d.clientSlug === slug && d.status === 'active');
+    } catch (err) {
+      console.error('Documents fetch error:', err);
+      listEl.innerHTML = `<p style="font-size: 12px; color: var(--stone-500); padding: 8px 0; font-style: italic;">Could not load documents. Please contact us.</p>`;
+      return;
+    }
+  }
+
+  if (docs.length === 0) {
+    listEl.innerHTML = `<p style="font-size: 12px; color: var(--stone-500); padding: 8px 0; font-style: italic;">No documents currently on file. If you require a copy of your signed loan agreement, please contact us on (011) 468 1250.</p>`;
+    return;
+  }
+
+  listEl.innerHTML = docs.map(d => {
+    const icon = (d.mimeType || '').includes('pdf') ? '📄' : (d.mimeType || '').includes('image') ? '🖼️' : '📎';
+    return `
+      <div class="client-doc-item">
+        <div class="cdi-icon">${icon}</div>
+        <div class="cdi-info">
+          <div class="cdi-name">${d.docType || d.fileName}</div>
+          <div class="cdi-meta">${formatBytes(d.fileSize)} · ${formatDocDate(d.timestamp)}</div>
+        </div>
+        <a class="cdi-action" href="${d.downloadUrl}" target="_blank" rel="noopener" title="Download">↓</a>
+      </div>
+    `;
+  }).join('');
+}
+
+function parseDocsCSV(csv) {
+  if (!csv.trim()) return [];
+  const lines = csv.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+  return lines.slice(1).map(line => {
+    const vals = line.match(/("([^"]|"")*"|[^,]*)/g).filter((_, i) => i % 2 === 0).map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
+    if (obj.fileSize) obj.fileSize = parseInt(obj.fileSize) || 0;
+    return obj;
+  });
+}
+
+function formatBytes(b) {
+  b = Number(b) || 0;
+  if (b < 1024) return b + ' B';
+  if (b < 1024 * 1024) return Math.round(b / 1024) + ' KB';
+  return (b / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function formatDocDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderApp();
+window.addEventListener('hashchange', renderApp);
+</script>
+
+</body>
+</html>
